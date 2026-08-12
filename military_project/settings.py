@@ -34,7 +34,7 @@ ALLOWED_HOSTS = [
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
-    "http://localhost:5174",
+    "https://military-assets-1-rk7c.onrender.com"
 ]
 AUTH_USER_MODEL = "accounts.User"
 

@@ -26,7 +26,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 DEBUG = True
 
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", "127.0.0.1,localhost").split(",")
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "military-assets-i4ms.onrender.com",
+]
 
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",

@@ -1,0 +1,248 @@
+import { useState, useEffect } from 'react'
+import { Plus, UserCheck } from 'lucide-react'
+import { getAssignments, createAssignment, getBases, getEquipmentTypes } from '../services/api'
+import { useAuth } from '../context/AuthContext'
+import { useToast } from '../context/ToastContext'
+import DataTable from '../components/DataTable'
+import Modal from '../components/Modal'
+
+export default function Assignments() {
+  const { role, baseId } = useAuth()
+  const toast = useToast()
+
+  const [assignments, setAssignments] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [modalOpen, setModalOpen] = useState(false)
+  const [submitting, setSubmitting] = useState(false)
+
+  const [bases, setBases] = useState([])
+  const [eqTypes, setEqTypes] = useState([])
+
+  const [form, setForm] = useState({
+    base: role === 'ADMIN' ? '' : baseId || '',
+    equipment_type: '',
+    personnel: '',
+    quantity: '',
+    assignment_date: new Date().toISOString().split('T')[0]
+  })
+  const [errors, setErrors] = useState({})
+
+  useEffect(() => {
+    fetchOptions()
+    fetchAssignments()
+  }, [])
+
+  const fetchOptions = async () => {
+    try {
+      if (role === 'ADMIN') {
+        const resB = await getBases()
+        setBases(resB.data?.results || resB.data || [])
+      }
+      const resE = await getEquipmentTypes()
+      setEqTypes(resE.data?.results || resE.data || [])
+    } catch {
+      // Handled
+    }
+  }
+
+  const fetchAssignments = async () => {
+    setLoading(true)
+    try {
+      const res = await getAssignments()
+      setAssignments(res.data?.results || res.data || [])
+    } catch {
+      setAssignments([])
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const validate = () => {
+    const errs = {}
+    if (!form.base) errs.base = 'Base is required'
+    if (!form.equipment_type) errs.equipment_type = 'Equipment Type is required'
+    if (!form.personnel.trim()) errs.personnel = 'Personnel / Unit name is required'
+    if (!form.quantity || Number(form.quantity) <= 0) errs.quantity = 'Quantity must be greater than 0'
+    setErrors(errs)
+    return Object.keys(errs).length === 0
+  }
+
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    if (!validate()) return
+
+    setSubmitting(true)
+    try {
+      await createAssignment({
+        ...form,
+        quantity: Number(form.quantity)
+      })
+      toast.success('Equipment assigned successfully.')
+      setModalOpen(false)
+      setForm({
+        base: role === 'ADMIN' ? '' : baseId || '',
+        equipment_type: '',
+        personnel: '',
+        quantity: '',
+        assignment_date: new Date().toISOString().split('T')[0]
+      })
+      fetchAssignments()
+    } catch (err) {
+      toast.error(err.friendlyMessage || 'Failed to record assignment.')
+    } finally {
+      setSubmitting(false)
+    }
+  }
+
+  const columns = [
+    {
+      label: 'Personnel / Unit',
+      accessor: 'personnel',
+      sortable: true,
+      render: (val) => <span className="font-medium text-slate-200">{val}</span>
+    },
+    {
+      label: 'Base',
+      accessor: 'base_name',
+      sortable: true,
+      render: (val, row) => val || row.base?.name || row.base || '—'
+    },
+    {
+      label: 'Equipment Type',
+      accessor: 'equipment_type_name',
+      sortable: true,
+      render: (val, row) => val || row.equipment_type?.name || row.equipment_type || '—'
+    },
+    {
+      label: 'Quantity',
+      accessor: 'quantity',
+      sortable: true,
+      render: (val) => <span className="font-semibold text-purple-400 tabular-nums">-{val}</span>
+    },
+    {
+      label: 'Assignment Date',
+      accessor: 'assignment_date',
+      sortable: true,
+      render: (val, row) => val || row.created_at?.split('T')[0] || '—'
+    },
+    {
+      label: 'Assigned By',
+      accessor: 'assigned_by_name',
+      sortable: true,
+      render: (val, row) => val || row.assigned_by?.username || row.created_by?.username || '—'
+    }
+  ]
+
+  return (
+    <div className="space-y-4">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="page-title">Personnel Assignments</h2>
+          <p className="text-xs text-slate-400">Track equipment issued to military personnel and operational units</p>
+        </div>
+        <button onClick={() => setModalOpen(true)} className="btn-primary">
+          <Plus className="w-4 h-4" />
+          Assign Equipment
+        </button>
+      </div>
+
+      <DataTable
+        columns={columns}
+        data={assignments}
+        loading={loading}
+        onRefresh={fetchAssignments}
+        emptyTitle="No equipment assignments recorded"
+        emptyDescription="Issue equipment to personnel or units to populate this log."
+        emptyAction={{
+          label: 'Assign Equipment',
+          onClick: () => setModalOpen(true)
+        }}
+      />
+
+      <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Assign Equipment to Personnel">
+        <form onSubmit={handleSubmit} className="p-6 space-y-4">
+          {role === 'ADMIN' ? (
+            <div>
+              <label className="form-label">Base</label>
+              <select
+                value={form.base}
+                onChange={(e) => setForm({ ...form, base: e.target.value })}
+                className={`form-input ${errors.base ? 'border-red-500' : ''}`}
+              >
+                <option value="">Select Base</option>
+                {bases.map((b) => (
+                  <option key={b.id} value={b.id}>{b.name}</option>
+                ))}
+              </select>
+              {errors.base && <p className="form-error">{errors.base}</p>}
+            </div>
+          ) : (
+            <div>
+              <label className="form-label">Base ID</label>
+              <input type="text" value={form.base} disabled className="form-input opacity-60 cursor-not-allowed" />
+            </div>
+          )}
+
+          <div>
+            <label className="form-label">Equipment Type</label>
+            <select
+              value={form.equipment_type}
+              onChange={(e) => setForm({ ...form, equipment_type: e.target.value })}
+              className={`form-input ${errors.equipment_type ? 'border-red-500' : ''}`}
+            >
+              <option value="">Select Equipment Type</option>
+              {eqTypes.map((eq) => (
+                <option key={eq.id} value={eq.id}>{eq.name} ({eq.category})</option>
+              ))}
+            </select>
+            {errors.equipment_type && <p className="form-error">{errors.equipment_type}</p>}
+          </div>
+
+          <div>
+            <label className="form-label">Personnel / Unit Name</label>
+            <input
+              type="text"
+              value={form.personnel}
+              onChange={(e) => setForm({ ...form, personnel: e.target.value })}
+              placeholder="e.g. Cpt. Alex Mercer / 1st Battalion"
+              className={`form-input ${errors.personnel ? 'border-red-500' : ''}`}
+            />
+            {errors.personnel && <p className="form-error">{errors.personnel}</p>}
+          </div>
+
+          <div>
+            <label className="form-label">Quantity</label>
+            <input
+              type="number"
+              min="1"
+              value={form.quantity}
+              onChange={(e) => setForm({ ...form, quantity: e.target.value })}
+              placeholder="e.g. 5"
+              className={`form-input ${errors.quantity ? 'border-red-500' : ''}`}
+            />
+            {errors.quantity && <p className="form-error">{errors.quantity}</p>}
+          </div>
+
+          <div>
+            <label className="form-label">Assignment Date</label>
+            <input
+              type="date"
+              value={form.assignment_date}
+              onChange={(e) => setForm({ ...form, assignment_date: e.target.value })}
+              className="form-input"
+            />
+          </div>
+
+          <div className="flex gap-3 pt-4 border-t border-slate-800">
+            <button type="button" onClick={() => setModalOpen(false)} className="btn-secondary flex-1">
+              Cancel
+            </button>
+            <button type="submit" disabled={submitting} className="btn-primary flex-1 justify-center">
+              {submitting ? 'Assigning...' : 'Assign Equipment'}
+            </button>
+          </div>
+        </form>
+      </Modal>
+    </div>
+  )
+}

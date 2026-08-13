@@ -6,7 +6,7 @@ from django.db import transaction
 from django.db.models import Q
 from accounts.permissions import (
     IsAdmin,
-    IsAdminOrLogistics,
+    IsAdminOrLogistics,IsAdminOrBaseCommander
  
 )
 
@@ -157,7 +157,7 @@ class AssignmentView(APIView):
     def get_permissions(self):
 
         if self.request.method == "POST":
-            return [IsAdminOrLogistics()]
+            return [IsAdminOrBaseCommander()]
 
         return [IsAuthenticated()]
 
@@ -227,7 +227,7 @@ class ExpenditureView(APIView):
     def get_permissions(self):
 
         if self.request.method == "POST":
-            return [IsAdminOrLogistics()]
+            return [IsAdminOrBaseCommander()]
 
         return [IsAuthenticated()]
 
@@ -294,7 +294,7 @@ class OpeningBalanceView(APIView):
     def get_permissions(self):
 
         if self.request.method == "POST":
-            return [IsAdmin()]
+            return [IsAdminOrBaseCommander()]
 
         return [IsAuthenticated()]
 

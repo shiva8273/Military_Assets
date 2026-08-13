@@ -21,6 +21,17 @@ class IsAdminOrLogistics(BasePermission):
             ]
         )
         
+class IsAdminOrBaseCommander(BasePermission):
+
+    def has_permission(self, request, view):
+        return (
+            request.user.is_authenticated
+            and request.user.role in [
+                "ADMIN",
+                "BASE_COMMANDER"
+            ]
+        )
+        
 class IsAdminOrLogisticsOrCommander(BasePermission):
 
     def has_permission(self, request, view):

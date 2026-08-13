@@ -5,14 +5,14 @@ from rest_framework.views import APIView
 
 from .models import Base
 from .serializers import BaseSerializer
-from accounts.permissions import IsAdmin
+from accounts.permissions import IsAdminOrLogistics
 
 # Create your views here.
 
 
 class BaseCreateView(APIView):
     
-    permission_classes = [IsAdmin]
+    permission_classes = [IsAdminOrLogistics]
     
     def get(self, request):
 

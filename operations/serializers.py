@@ -4,13 +4,14 @@ from .models import Purchase, Transfer, Assignment, Expenditure, OpeningBalance
 
 
 class PurchaseSerializer(serializers.ModelSerializer):
-
+    equipment_type_name = serializers.CharField( source="equipment_type.name", read_only=True )
     class Meta:
         model = Purchase
         fields = [
             "id",
             "base",
             "equipment_type",
+            "equipment_type_name",
             "quantity",
             "date",
             "created_by",
@@ -30,6 +31,7 @@ class PurchaseSerializer(serializers.ModelSerializer):
 
 
 class TransferSerializer(serializers.ModelSerializer):
+    equipment_type_name = serializers.CharField( source="equipment_type.name", read_only=True )
 
     class Meta:
         model = Transfer
@@ -38,6 +40,7 @@ class TransferSerializer(serializers.ModelSerializer):
             "source_base",
             "destination_base",
             "equipment_type",
+            "equipment_type_name",
             "quantity",
             "status",
             "timestamp",
@@ -64,6 +67,7 @@ class TransferSerializer(serializers.ModelSerializer):
 
 
 class AssignmentSerializer(serializers.ModelSerializer):
+    equipment_type_name = serializers.CharField( source="equipment_type.name", read_only=True )
 
     class Meta:
         model = Assignment
@@ -72,6 +76,7 @@ class AssignmentSerializer(serializers.ModelSerializer):
             "id",
             "base",
             "equipment_type",
+            "equipment_type_name",
             "quantity",
             "assigned_to",
             "assigned_on",
@@ -91,6 +96,7 @@ class AssignmentSerializer(serializers.ModelSerializer):
 
 
 class ExpenditureSerializer(serializers.ModelSerializer):
+    equipment_type_name = serializers.CharField( source="equipment_type.name", read_only=True )
 
     class Meta:
         model = Expenditure
@@ -99,6 +105,7 @@ class ExpenditureSerializer(serializers.ModelSerializer):
             "id",
             "base",
             "equipment_type",
+            "equipment_type_name",
             "quantity",
             "reason",
             "expended_on",
@@ -118,6 +125,13 @@ class ExpenditureSerializer(serializers.ModelSerializer):
 
 
 class OpeningBalanceSerializer(serializers.ModelSerializer):
+    
+    equipment_type_name = serializers.CharField(
+    source="equipment_type.name",
+    read_only=True
+    )
+    
+
 
     class Meta:
         model = OpeningBalance
@@ -126,6 +140,7 @@ class OpeningBalanceSerializer(serializers.ModelSerializer):
             "id",
             "base",
             "equipment_type",
+            "equipment_type_name",
             "quantity",
             "created_by",
             "created_at",
@@ -134,6 +149,7 @@ class OpeningBalanceSerializer(serializers.ModelSerializer):
         read_only_fields = [
             "id",
             "created_by",
+            "equipment_type_name",
             "created_at",
         ]
 

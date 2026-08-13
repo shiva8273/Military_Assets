@@ -40,7 +40,7 @@ export default function Purchases() {
 
   const fetchOptions = async () => {
     try {
-      if (role === "ADMIN") {
+      if (role === "ADMIN" || role === "LOGISTICS_OFFICER") {
         const resB = await getBases();
         setBases(resB.data?.results || resB.data || []);
       }

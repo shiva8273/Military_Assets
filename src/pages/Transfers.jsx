@@ -40,26 +40,37 @@ export default function Transfers() {
     fetchTransfers();
   }, []);
 
-  const fetchOptions = async () => {
-    try {
-      const resB = await getBases();
-      setBases(resB.data?.results || resB.data || []);
-      const resE = await getEquipmentTypes();
-      setEqTypes(resE.data?.results || resE.data || []);
-    } catch {}
-  };
+ const fetchOptions = async () => {
+  try {
+    const resB = await getBases();
 
-  const fetchTransfers = async () => {
-    setLoading(true);
-    try {
-      const res = await getTransfers();
-      setTransfers(res.data?.results || res.data || []);
-    } catch {
-      setTransfers([]);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const baseData = Array.isArray(resB)
+      ? resB
+      : Array.isArray(resB.data)
+        ? resB.data
+        : resB.data?.results || [];
+
+    setBases(baseData);
+
+    const resE = await getEquipmentTypes();
+
+    const equipmentData = Array.isArray(resE)
+      ? resE
+      : Array.isArray(resE.data)
+        ? resE.data
+        : resE.data?.results || [];
+
+    console.log("Equipment Types API Response:", resE);
+    console.log("Equipment Types Data:", equipmentData);
+
+    setEqTypes(equipmentData);
+
+  } catch (error) {
+    console.error("Failed to fetch options:", error);
+    setBases([]);
+    setEqTypes([]);
+  }
+};
 
   const validate = () => {
     const errs = {};

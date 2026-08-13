@@ -14,7 +14,7 @@ class EquipmentTypeViewSet(APIView):
     def get_permissions(self):
    
            if self.request.method == "POST":
-               return [IsAdmin]
+               return [IsAdmin()]
    
            return [IsAuthenticated()]
 

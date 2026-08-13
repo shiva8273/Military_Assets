@@ -114,7 +114,7 @@ export default function Users() {
       label: 'Assigned Base',
       accessor: 'base_name',
       sortable: true,
-      render: (val, row) => val || row.base?.name || (row.role === 'ADMIN' ? 'Global' : 'Unassigned')
+      render: (val, row) => val || row.base?.name || (row.role === 'ADMIN' ? 'Global' : row.base)
     },
     {
       label: 'Date Joined',

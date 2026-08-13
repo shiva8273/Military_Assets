@@ -294,7 +294,7 @@ class OpeningBalanceView(APIView):
     def get_permissions(self):
 
         if self.request.method == "POST":
-            return [IsAdminOrBaseCommander()]
+            return [IsAdmin()]
 
         return [IsAuthenticated()]
 

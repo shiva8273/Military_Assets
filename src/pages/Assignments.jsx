@@ -121,8 +121,9 @@ export default function Assignments() {
       label: "Equipment Type",
       accessor: "equipment_type_name",
       sortable: true,
-      render: (val, row) =>
-        val || row.equipment_type?.name || row.equipment_type || "—",
+      render: (val) => (
+        <span className="font-medium text-slate-200">{val || "—"}</span>
+      ),
     },
     {
       label: "Quantity",

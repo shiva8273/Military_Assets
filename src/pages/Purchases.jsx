@@ -107,19 +107,16 @@ export default function Purchases() {
       sortable: true,
       render: (val, row) => val || row.base?.name || row.base || "—",
     },
-    {
-      label: "Equipment Type",
-      accessor: "equipment_type_name",
-      sortable: true,
-      render: (val, row) => (
-        <div className="flex items-center gap-2">
-          <span>
-            {val || row.equipment_type?.name || row.equipment_type || "—"}
-          </span>
-          {row.category && <Badge value={row.category} />}
-        </div>
-      ),
-    },
+   {
+  label: "Equipment Type",
+  accessor: "equipment_type_name",
+  sortable: true,
+  render: (val) => (
+    <span className="font-medium text-slate-200">
+      {val || "—"}
+    </span>
+  ),
+},
     {
       label: "Quantity",
       accessor: "quantity",

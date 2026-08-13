@@ -40,39 +40,38 @@ export default function Transfers() {
     fetchTransfers();
   }, []);
 
- const fetchOptions = async () => {
-  try {
-    const resB = await getBases();
+  const fetchOptions = async () => {
+    try {
+      const resB = await getBases();
 
-    const baseData = Array.isArray(resB)
-      ? resB
-      : Array.isArray(resB.data)
-        ? resB.data
-        : resB.data?.results || [];
+      const baseData = Array.isArray(resB)
+        ? resB
+        : Array.isArray(resB.data)
+          ? resB.data
+          : resB.data?.results || [];
 
-    setBases(baseData);
+      setBases(baseData);
 
-    const resE = await getEquipmentTypes();
+      const resE = await getEquipmentTypes();
 
-    const equipmentData = Array.isArray(resE)
-      ? resE
-      : Array.isArray(resE.data)
-        ? resE.data
-        : resE.data?.results || [];
+      const equipmentData = Array.isArray(resE)
+        ? resE
+        : Array.isArray(resE.data)
+          ? resE.data
+          : resE.data?.results || [];
 
-    console.log("Equipment Types API Response:", resE);
-    console.log("Equipment Types Data:", equipmentData);
+      console.log("Equipment Types API Response:", resE);
+      console.log("Equipment Types Data:", equipmentData);
 
-    setEqTypes(equipmentData);
+      setEqTypes(equipmentData);
+    } catch (error) {
+      console.error("Failed to fetch options:", error);
+      setBases([]);
+      setEqTypes([]);
+    }
+  };
 
-  } catch (error) {
-    console.error("Failed to fetch options:", error);
-    setBases([]);
-    setEqTypes([]);
-  }
-};
-
-const fetchTransfers = async () => {
+  const fetchTransfers = async () => {
     setLoading(true);
     try {
       const res = await getTransfers();
@@ -161,8 +160,9 @@ const fetchTransfers = async () => {
       label: "Equipment Type",
       accessor: "equipment_type_name",
       sortable: true,
-      render: (val, row) =>
-        val || row.equipment_type?.name || row.equipment_type || "—",
+      render: (val) => (
+        <span className="font-medium text-slate-200">{val || "—"}</span>
+      ),
     },
     {
       label: "Quantity",

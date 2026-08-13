@@ -89,16 +89,15 @@ export default function Inventory() {
       render: (val) => <span className="font-medium text-slate-200">{val}</span>
     },
     {
-      label: 'Equipment Type',
-      accessor: 'equipment_name',
-      sortable: true,
-      render: (val, row) => (
-        <div className="flex items-center gap-2">
-          <span>{val}</span>
-          <Badge value={row.category} />
-        </div>
-      )
-    },
+  label: "Equipment Type",
+  accessor: "equipment_type_name",
+  sortable: true,
+  render: (val) => (
+    <span className="font-medium text-slate-200">
+      {val || "—"}
+    </span>
+  ),
+},
     {
       label: 'Opening',
       accessor: 'opening_balance',

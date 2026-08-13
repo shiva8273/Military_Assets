@@ -104,13 +104,16 @@ export default function OpeningBalances() {
       sortable: true,
       render: (val, row) => val || row.base?.name || row.base || "—",
     },
-    {
-      label: "Equipment Type",
-      accessor: "equipment_type_name",
-      sortable: true,
-      render: (val, row) =>
-        val || row.equipment_type?.name || row.equipment_type || "—",
-    },
+{
+  label: "Equipment Type",
+  accessor: "equipment_type_name",
+  sortable: true,
+  render: (val) => (
+    <span className="font-medium text-slate-200">
+      {val || "—"}
+    </span>
+  ),
+},
     {
       label: "Quantity",
       accessor: "quantity",

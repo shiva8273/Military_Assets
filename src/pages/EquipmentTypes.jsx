@@ -28,8 +28,8 @@ export default function EquipmentTypes() {
   const fetchEquipmentTypes = async () => {
     setLoading(true)
     try {
-      const res = await getEquipmentTypes()
-      setEqTypes(res.data?.results || res.data || [])
+      const resEq = await getEquipmentTypes()
+      setEqTypes(resEq.data?.equipment  || [])
     } catch {
       setEqTypes([])
     } finally {

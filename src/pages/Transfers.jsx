@@ -39,8 +39,8 @@ export default function Transfers() {
     try {
       const resB = await getBases()
       setBases(resB.data?.results || resB.data || [])
-      const resE = await getEquipmentTypes()
-      setEqTypes(resE.data?.results || resE.data || [])
+      const resEq = await getEquipmentTypes()
+      setEqTypes(resEq.data?.equipment  || [])
     } catch {
     }
   }

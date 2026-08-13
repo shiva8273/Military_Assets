@@ -72,6 +72,18 @@ export default function Transfers() {
   }
 };
 
+const fetchTransfers = async () => {
+    setLoading(true);
+    try {
+      const res = await getTransfers();
+      setTransfers(res.data?.results || res.data || []);
+    } catch {
+      setTransfers([]);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const validate = () => {
     const errs = {};
     if (!form.source_base) errs.source_base = "Source Base is required";

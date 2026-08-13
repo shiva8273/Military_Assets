@@ -131,10 +131,10 @@ export default function OpeningBalances() {
           <h2 className="page-title">Opening Balances</h2>
           <p className="text-xs text-slate-400">Initialize stock levels across military bases</p>
         </div>
-        <button onClick={() => setModalOpen(true)} className="btn-primary">
+        {role === "ADMIN" && (<button onClick={() => setModalOpen(true)} className="btn-primary">
           <Plus className="w-4 h-4" />
           Create Opening Balance
-        </button>
+        </button>)}
       </div>
 
       <DataTable

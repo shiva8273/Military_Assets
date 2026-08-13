@@ -38,9 +38,6 @@ class EquipmentTypeViewSet(APIView):
         equipment_types = EquipmentType.objects.all()
         serializer = EquipmentTypeSerializer(equipment_types, many=True)
         return Response(
-            {
-                "message": "Equipment types fetched successfully",
-                "equipment": serializer.data,
-            },
-            status=status.HTTP_200_OK,
-        )
+                   serializer.data,
+                   status=status.HTTP_200_OK
+               )

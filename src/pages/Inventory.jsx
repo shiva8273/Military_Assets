@@ -32,7 +32,7 @@ export default function Inventory() {
         setBases(resBases.data?.results || resBases.data || [])
       }
       const resEq = await getEquipmentTypes()
-      setEqTypes(resEq.data?.equipment  || [])
+      setEqTypes(resEq.data?.results || resEq.data || [])
     } catch {
     }
   }

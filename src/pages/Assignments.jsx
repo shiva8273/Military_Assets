@@ -38,8 +38,8 @@ export default function Assignments() {
         const resB = await getBases()
         setBases(resB.data?.results || resB.data || [])
       }
-      const resEq = await getEquipmentTypes()
-      setEqTypes(resEq.data?.equipment  || [])
+      const resE = await getEquipmentTypes()
+      setEqTypes(resE.data?.equipment  || resE.data || [])
     } catch {
     }
   }

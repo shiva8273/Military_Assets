@@ -39,8 +39,8 @@ export default function Purchases() {
         const resB = await getBases()
         setBases(resB.data?.results || resB.data || [])
       }
-    const resEq = await getEquipmentTypes()
-      setEqTypes(resEq.data?.equipment  || [])
+      const resE = await getEquipmentTypes()
+      setEqTypes(resE.data?.results || resE.data || [])
     } catch {
     }
   }

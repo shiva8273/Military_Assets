@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from .models import EquipmentType
-
+from rest_framework.permissions import IsAuthenticated
 from .serializer import EquipmentTypeSerializer
 from accounts.permissions import IsAdmin
 
@@ -11,7 +11,12 @@ from accounts.permissions import IsAdmin
 
 
 class EquipmentTypeViewSet(APIView):
-    permission_classes = [IsAdmin]
+    def get_permissions(self):
+   
+           if self.request.method == "POST":
+               return [IsAdmin]
+   
+           return [IsAuthenticated()]
 
     def post(self, request):
 

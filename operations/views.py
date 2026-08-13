@@ -343,17 +343,23 @@ class InventoryView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
-
+        base_id = request.query_params.get("base")
+        equipment_type_id = request.query_params.get("equipment_type")
+        category = request.query_params.get("category")
         bases = Base.objects.all()
-
         equipment_types = EquipmentType.objects.all()
+        if base_id:
+            bases = bases.filter(id=base_id)
+        if equipment_type_id:
+            equipment_types = equipment_types.filter(id=equipment_type_id)
+        if category:
+            equipment_types = equipment_types.filter(category=category)
 
         result = []
 
         for base in bases:
-
             if (
-                request.user.role == "BASE_COMMANDER"
+                request.user.role in ["BASE_COMMANDER", "LOGISTICS_OFFICER"]
                 and request.user.base_id != base.id
             ):
                 continue
@@ -371,6 +377,7 @@ class InventoryView(APIView):
                         "base_name": base.name,
                         "equipment_type_id": equipment_type.id,
                         "equipment_name": equipment_type.name,
+                        "category": equipment_type.category,
                         "opening_balance": inventory["opening_balance"],
                         "purchases": inventory["purchases"],
                         "transfers_in": inventory["transfers_in"],
@@ -381,9 +388,10 @@ class InventoryView(APIView):
                     }
                 )
 
-        return Response(result, status=status.HTTP_200_OK)
-
-
+        return Response(
+            result,
+            status=status.HTTP_200_OK
+        )
 class DashboardSummaryView(APIView):
 
     permission_classes = [IsAuthenticated]

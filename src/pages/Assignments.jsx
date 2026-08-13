@@ -41,7 +41,6 @@ export default function Assignments() {
       const resE = await getEquipmentTypes()
       setEqTypes(resE.data?.results || resE.data || [])
     } catch {
-      // Handled
     }
   }
 

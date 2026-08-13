@@ -16,7 +16,6 @@ export default function Users() {
 
   const [bases, setBases] = useState([])
 
-  // Filters
   const [roleFilter, setRoleFilter] = useState('')
   const [baseFilter, setBaseFilter] = useState('')
 
@@ -39,7 +38,6 @@ export default function Users() {
       const res = await getBases()
       setBases(res.data?.results || res.data || [])
     } catch {
-      // Ignored
     }
   }
 
@@ -79,7 +77,7 @@ export default function Users() {
     setSubmitting(true)
     try {
       const payload = { ...form }
-      if (!payload.base) delete payload.base // Global admin fallback
+      if (!payload.base) delete payload.base
 
       await createUser(payload)
       toast.success('User account created successfully.')
@@ -128,7 +126,6 @@ export default function Users() {
 
   return (
     <div className="space-y-4">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h2 className="page-title">User Management</h2>
@@ -140,7 +137,6 @@ export default function Users() {
         </button>
       </div>
 
-      {/* Filters */}
       <div className="card p-3 flex flex-wrap gap-3 items-center">
         <select
           value={roleFilter}
@@ -174,7 +170,6 @@ export default function Users() {
         )}
       </div>
 
-      {/* Users DataTable */}
       <DataTable
         columns={columns}
         data={usersList}
@@ -188,7 +183,6 @@ export default function Users() {
         }}
       />
 
-      {/* Create User Modal */}
       <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Create User Account">
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div>

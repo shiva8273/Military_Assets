@@ -33,7 +33,6 @@ export default function Navbar({ onMenuClick }) {
 
   const pageTitle = pageTitles[location.pathname] || 'MAMS'
 
-  // Close dropdown on outside click
   useEffect(() => {
     const handler = (e) => {
       if (dropRef.current && !dropRef.current.contains(e.target)) setDropOpen(false)
@@ -49,7 +48,6 @@ export default function Navbar({ onMenuClick }) {
 
   return (
     <header className="h-16 bg-slate-900 border-b border-slate-800 flex items-center px-4 gap-4 flex-shrink-0 sticky top-0 z-30">
-      {/* Hamburger (mobile) */}
       <button
         onClick={onMenuClick}
         className="lg:hidden btn-ghost p-2"
@@ -58,14 +56,11 @@ export default function Navbar({ onMenuClick }) {
         <Menu className="w-5 h-5" />
       </button>
 
-      {/* Page title */}
       <div className="flex-1 min-w-0">
         <h1 className="text-base font-semibold text-slate-100 truncate">{pageTitle}</h1>
       </div>
 
-      {/* Right section */}
       <div className="flex items-center gap-2">
-        {/* Base / Access indicator */}
         <div className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-700">
           {role === 'ADMIN' ? (
             <>
@@ -82,13 +77,11 @@ export default function Navbar({ onMenuClick }) {
           )}
         </div>
 
-        {/* Notifications */}
         <button className="btn-ghost relative p-2" aria-label="Notifications">
           <Bell className="w-4 h-4" />
           <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-navy-500 rounded-full" />
         </button>
 
-        {/* Profile dropdown */}
         <div className="relative" ref={dropRef}>
           <button
             onClick={() => setDropOpen(o => !o)}

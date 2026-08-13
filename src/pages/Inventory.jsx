@@ -10,7 +10,6 @@ export default function Inventory() {
   const [data, setData] = useState([])
   const [loading, setLoading] = useState(true)
 
-  // Filters
   const [bases, setBases] = useState([])
   const [eqTypes, setEqTypes] = useState([])
   const [selectedBase, setSelectedBase] = useState(role === 'ADMIN' ? '' : baseId || '')
@@ -35,7 +34,6 @@ export default function Inventory() {
       const resEq = await getEquipmentTypes()
       setEqTypes(resEq.data?.results || resEq.data || [])
     } catch {
-      // Option fetch failure handled gracefully
     }
   }
 
@@ -50,7 +48,6 @@ export default function Inventory() {
       const res = await getInventory(params)
       const raw = res.data?.results || res.data || []
 
-      // Normalize row calculations
       const processed = raw.map((item) => {
         const opening = item.opening_balance ?? item.opening ?? 0
         const purchases = item.purchases ?? item.total_purchases ?? 0
@@ -162,7 +159,6 @@ export default function Inventory() {
 
   return (
     <div className="space-y-4">
-      {/* Header & Controls */}
       <div className="card p-4 flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-wrap items-center gap-3 flex-1 min-w-0">
           {role === 'ADMIN' && (
@@ -219,7 +215,6 @@ export default function Inventory() {
         </button>
       </div>
 
-      {/* Main Inventory DataTable */}
       <DataTable
         columns={columns}
         data={data}

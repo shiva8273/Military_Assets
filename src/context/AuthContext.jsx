@@ -28,7 +28,6 @@ export function AuthProvider({ children }) {
     const response = await loginUser(credentials)
     const { access, refresh, user: userData } = response.data
 
-    // Support flat user in response or nested
     const resolvedUser = userData || response.data
 
     localStorage.setItem('access_token',  access)

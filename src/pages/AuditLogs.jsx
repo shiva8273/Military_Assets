@@ -8,7 +8,6 @@ export default function AuditLogs() {
   const [logs, setLogs] = useState([])
   const [loading, setLoading] = useState(true)
 
-  // Filters
   const [actionFilter, setActionFilter] = useState('')
   const [userFilter, setUserFilter] = useState('')
   const [dateFilter, setDateFilter] = useState('')
@@ -83,7 +82,6 @@ export default function AuditLogs() {
         </div>
       </div>
 
-      {/* Filters */}
       <div className="card p-3 flex flex-wrap gap-3 items-center">
         <select
           value={actionFilter}

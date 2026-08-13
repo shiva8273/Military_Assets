@@ -42,7 +42,6 @@ export default function Purchases() {
       const resE = await getEquipmentTypes()
       setEqTypes(resE.data?.results || resE.data || [])
     } catch {
-      // Ignored
     }
   }
 

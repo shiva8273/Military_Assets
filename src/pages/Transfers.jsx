@@ -42,7 +42,6 @@ export default function Transfers() {
       const resE = await getEquipmentTypes()
       setEqTypes(resE.data?.results || resE.data || [])
     } catch {
-      // Handled
     }
   }
 
@@ -177,7 +176,6 @@ export default function Transfers() {
         }}
       />
 
-      {/* Transfer Form Modal */}
       <Modal open={modalOpen} onClose={() => setModalOpen(false)} title="Initiate Equipment Transfer">
         <form onSubmit={handleOpenConfirm} className="p-6 space-y-4">
           <div>
@@ -265,7 +263,6 @@ export default function Transfers() {
         </form>
       </Modal>
 
-      {/* Required Confirmation Dialog */}
       <ConfirmDialog
         open={confirmOpen}
         onClose={() => setConfirmOpen(false)}

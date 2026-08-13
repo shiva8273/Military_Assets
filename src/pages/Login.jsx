@@ -47,16 +47,14 @@ export default function Login() {
 
   return (
     <div className="min-h-screen flex bg-slate-950">
-      {/* Left panel — Branding */}
+     
       <div className="hidden lg:flex flex-col flex-1 items-center justify-center bg-slate-900 border-r border-slate-800 p-12 relative overflow-hidden">
-        {/* Background pattern */}
         <div className="absolute inset-0 opacity-5"
           style={{
             backgroundImage: `radial-gradient(circle at 25px 25px, #4a6fa5 2px, transparent 0)`,
             backgroundSize: '50px 50px'
           }}
         />
-        {/* Grid lines */}
         <div className="absolute inset-0 opacity-[0.03]"
           style={{
             backgroundImage: `linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)`,
@@ -65,7 +63,6 @@ export default function Login() {
         />
 
         <div className="relative z-10 text-center max-w-sm">
-          {/* Logo */}
           <div className="w-20 h-20 bg-navy-800 border border-navy-600 rounded-2xl flex items-center justify-center mx-auto mb-6 shadow-xl">
             <Shield className="w-10 h-10 text-navy-300" />
           </div>
@@ -79,7 +76,6 @@ export default function Login() {
             Enterprise-grade asset tracking and logistics management for military operations across all bases and units.
           </p>
 
-          {/* Feature bullets */}
           <div className="mt-10 space-y-3 text-left">
             {[
               'Real-time inventory across all bases',
@@ -96,9 +92,7 @@ export default function Login() {
         </div>
       </div>
 
-      {/* Right panel — Login form */}
       <div className="flex flex-col items-center justify-center flex-1 lg:max-w-md xl:max-w-lg p-6 sm:p-12">
-        {/* Mobile logo */}
         <div className="lg:hidden mb-8 flex flex-col items-center">
           <div className="w-14 h-14 bg-navy-800 border border-navy-600 rounded-xl flex items-center justify-center mb-3">
             <Shield className="w-7 h-7 text-navy-300" />
@@ -113,7 +107,6 @@ export default function Login() {
             <p className="text-sm text-slate-500">Enter your credentials to access the system</p>
           </div>
 
-          {/* API error alert */}
           {apiErr && (
             <div className="flex items-start gap-3 bg-red-900/30 border border-red-800/50 rounded-xl p-3 mb-5">
               <AlertCircle className="w-4 h-4 text-red-400 flex-shrink-0 mt-0.5" />
@@ -122,7 +115,6 @@ export default function Login() {
           )}
 
           <form onSubmit={handleSubmit} noValidate className="space-y-4">
-            {/* Username */}
             <div>
               <label htmlFor="username" className="form-label">Username</label>
               <div className="relative">
@@ -141,7 +133,6 @@ export default function Login() {
               {errors.username && <p className="form-error">{errors.username}</p>}
             </div>
 
-            {/* Password */}
             <div>
               <label htmlFor="password" className="form-label">Password</label>
               <div className="relative">
@@ -169,7 +160,6 @@ export default function Login() {
               {errors.password && <p className="form-error">{errors.password}</p>}
             </div>
 
-            {/* Submit */}
             <button
               type="submit"
               disabled={loading}

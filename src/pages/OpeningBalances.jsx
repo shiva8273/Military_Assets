@@ -40,7 +40,6 @@ export default function OpeningBalances() {
       const resE = await getEquipmentTypes()
       setEqTypes(resE.data?.results || resE.data || [])
     } catch {
-      // Handled
     }
   }
 

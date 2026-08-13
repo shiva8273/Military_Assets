@@ -34,7 +34,6 @@ export default function NetMovementModal({ open, onClose, data = {} }) {
           )
         })}
 
-        {/* Divider */}
         <div className="border-t border-slate-700 pt-3">
           <div className={clsx(
             'flex items-center gap-3 p-4 rounded-xl border',

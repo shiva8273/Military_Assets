@@ -22,7 +22,6 @@ export default function Dashboard() {
   const [error, setError] = useState('')
   const [netModalOpen, setNetModalOpen] = useState(false)
 
-  // Filters
   const [bases, setBases] = useState([])
   const [eqTypes, setEqTypes] = useState([])
   const [selectedBase, setSelectedBase] = useState(role === 'ADMIN' ? '' : baseId || '')
@@ -47,7 +46,6 @@ export default function Dashboard() {
       const resEq = await getEquipmentTypes()
       setEqTypes(resEq.data?.results || resEq.data || [])
     } catch {
-      // Option fetch failure handled gracefully
     }
   }
 
@@ -79,7 +77,6 @@ export default function Dashboard() {
   const expenditures = summary?.total_expenditures ?? summary?.expenditures ?? 0
   const closing      = summary?.closing_balance     ?? summary?.closing     ?? (opening + netMovement - assignments - expenditures)
 
-  // Chart Data extractors with fallbacks
   const eqDistributionData = summary?.by_equipment_type || summary?.equipment_type_distribution || []
   const baseInventoryData  = summary?.by_base || summary?.base_inventory || []
   const categoryData       = summary?.by_category || summary?.category_distribution || []
@@ -94,7 +91,6 @@ export default function Dashboard() {
 
   return (
     <div className="space-[#10 space-y-6">
-      {/* Filters bar */}
       <div className="card p-4 flex flex-wrap items-center justify-between gap-4">
         <div className="flex flex-wrap items-center gap-3 flex-1 min-w-0">
           {role === 'ADMIN' && (
@@ -169,7 +165,6 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Metrics Grid */}
       {loading ? (
         <CardsSkeleton count={8} />
       ) : (
@@ -192,9 +187,7 @@ export default function Dashboard() {
         </div>
       )}
 
-      {/* Charts Grid */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        {/* Asset Movement Chart */}
         <div className="card p-5">
           <h3 className="section-title mb-4">Asset Movement Breakdown</h3>
           <div className="h-72">
@@ -222,7 +215,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Equipment Type Distribution */}
         <div className="card p-5">
           <h3 className="section-title mb-4">Inventory by Equipment Type</h3>
           <div className="h-72">
@@ -246,7 +238,6 @@ export default function Dashboard() {
           </div>
         </div>
 
-        {/* Base-wise Inventory */}
         {role === 'ADMIN' && (
           <div className="card p-5">
             <h3 className="section-title mb-4">Base-wise Stock Distribution</h3>
@@ -272,7 +263,6 @@ export default function Dashboard() {
           </div>
         )}
 
-        {/* Equipment Category Distribution */}
         <div className="card p-5">
           <h3 className="section-title mb-4">Equipment Category Distribution</h3>
           <div className="h-72">
@@ -307,7 +297,6 @@ export default function Dashboard() {
         </div>
       </div>
 
-      {/* Net Movement Interactive Modal */}
       <NetMovementModal
         open={netModalOpen}
         onClose={() => setNetModalOpen(false)}

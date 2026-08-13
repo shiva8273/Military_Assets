@@ -6,7 +6,6 @@ export default function Modal({ open, onClose, title, children, size = 'md', hid
   const overlayRef = useRef()
   const contentRef = useRef()
 
-  // ESC to close
   useEffect(() => {
     if (!open) return
     const handler = (e) => { if (e.key === 'Escape') onClose() }
@@ -14,7 +13,6 @@ export default function Modal({ open, onClose, title, children, size = 'md', hid
     return () => document.removeEventListener('keydown', handler)
   }, [open, onClose])
 
-  // Prevent body scroll
   useEffect(() => {
     document.body.style.overflow = open ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
@@ -46,7 +44,6 @@ export default function Modal({ open, onClose, title, children, size = 'md', hid
         aria-modal="true"
         aria-labelledby="modal-title"
       >
-        {/* Header */}
         <div className="flex items-center justify-between px-6 py-4 border-b border-slate-800 flex-shrink-0">
           <h2 id="modal-title" className="text-base font-semibold text-slate-100">{title}</h2>
           {!hideClose && (
@@ -60,7 +57,6 @@ export default function Modal({ open, onClose, title, children, size = 'md', hid
           )}
         </div>
 
-        {/* Body */}
         <div className="overflow-y-auto flex-1">
           {children}
         </div>

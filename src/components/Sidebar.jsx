@@ -31,12 +31,10 @@ export default function Sidebar({ mobileOpen, onMobileClose }) {
 
   const navItems = allNavItems.filter(item => item.roles.includes(role))
 
-  // Close mobile sidebar on route change
   useEffect(() => { onMobileClose?.() }, [location.pathname])
 
   return (
     <>
-      {/* Mobile overlay */}
       {mobileOpen && (
         <div
           ref={overlayRef}
@@ -45,19 +43,15 @@ export default function Sidebar({ mobileOpen, onMobileClose }) {
         />
       )}
 
-      {/* Sidebar */}
       <aside
         className={clsx(
           'fixed top-0 left-0 h-full z-50 flex flex-col bg-slate-900 border-r border-slate-800 transition-all duration-300',
-          // Desktop
           'lg:translate-x-0',
           collapsed ? 'lg:w-[72px]' : 'lg:w-64',
-          // Mobile
           mobileOpen ? 'translate-x-0 w-72' : '-translate-x-full w-72',
           'lg:relative lg:h-screen lg:flex-shrink-0'
         )}
       >
-        {/* Header */}
         <div className={clsx(
           'flex items-center border-b border-slate-800 px-4 h-16 flex-shrink-0',
           collapsed ? 'justify-center' : 'justify-between'
@@ -78,15 +72,13 @@ export default function Sidebar({ mobileOpen, onMobileClose }) {
               <Shield className="w-4 h-4 text-navy-200" />
             </div>
           )}
-          {/* Desktop collapse toggle */}
-          <button
+=          <button
             onClick={() => setCollapsed(c => !c)}
             className="hidden lg:flex items-center justify-center w-6 h-6 rounded text-slate-500 hover:text-slate-300 hover:bg-slate-800 transition-colors"
           >
             {collapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
           </button>
-          {/* Mobile close */}
-          <button
+=          <button
             onClick={onMobileClose}
             className="lg:hidden flex items-center justify-center w-7 h-7 rounded text-slate-500 hover:text-slate-300"
           >
@@ -94,8 +86,7 @@ export default function Sidebar({ mobileOpen, onMobileClose }) {
           </button>
         </div>
 
-        {/* Nav */}
-        <nav className="flex-1 overflow-y-auto py-3 px-2 space-y-0.5">
+=        <nav className="flex-1 overflow-y-auto py-3 px-2 space-y-0.5">
           {navItems.map((item, idx) => {
             if (item.divider) {
               return !collapsed ? (
@@ -136,8 +127,7 @@ export default function Sidebar({ mobileOpen, onMobileClose }) {
           })}
         </nav>
 
-        {/* Footer version */}
-        {!collapsed && (
+=        {!collapsed && (
           <div className="px-4 py-3 border-t border-slate-800">
             <p className="text-[10px] text-slate-600">v1.0.0 — MAMS Enterprise</p>
           </div>

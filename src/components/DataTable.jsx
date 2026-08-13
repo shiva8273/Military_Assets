@@ -55,7 +55,6 @@ export default function DataTable({
 
   return (
     <div className="card">
-      {/* Toolbar */}
       {(searchable || onRefresh) && (
         <div className="flex items-center gap-3 px-4 py-3 border-b border-slate-800 flex-wrap">
           {searchable && (
@@ -84,7 +83,6 @@ export default function DataTable({
         </div>
       )}
 
-      {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full min-w-[600px]">
           <thead>
@@ -146,7 +144,6 @@ export default function DataTable({
         </table>
       </div>
 
-      {/* Pagination */}
       {!loading && sorted.length > pageSize && (
         <div className="flex items-center justify-between px-4 py-3 border-t border-slate-800">
           <p className="text-xs text-slate-500">

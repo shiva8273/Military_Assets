@@ -26,7 +26,6 @@ export default function App() {
           <Routes>
             <Route path="/login" element={<Login />} />
 
-            {/* Authenticated Layout Shell */}
             <Route
               element={
                 <ProtectedRoute>
@@ -60,7 +59,6 @@ export default function App() {
 
               <Route path="/expenditures" element={<Expenditures />} />
 
-              {/* Admin-only routes */}
               <Route
                 path="/equipment-types"
                 element={
@@ -98,7 +96,6 @@ export default function App() {
               />
             </Route>
 
-            {/* Default fallback */}
             <Route path="*" element={<Navigate to="/dashboard" replace />} />
           </Routes>
         </Router>

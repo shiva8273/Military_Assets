@@ -62,7 +62,7 @@ class CreateUserView(APIView):
     def get(self, request):
         users = User.objects.all()
 
-        serializer = UserCreateSerializer(users, many=True)
+        serializer = UserSerializer(users, many=True)
 
         return Response(
            serializer.data,
@@ -72,7 +72,7 @@ class CreateUserView(APIView):
 
     def post(self, request):
 
-        serializer = UserSerializer(data=request.data)
+        serializer = UserCreateSerializer(data=request.data)
 
         if serializer.is_valid():
             user = serializer.save()

@@ -6,7 +6,7 @@ from rest_framework import status
 from django.contrib.auth import authenticate, get_user_model
 from rest_framework_simplejwt.tokens import RefreshToken
 
-from .serializers import UserCreateSerializer
+from .serializers import UserCreateSerializer,UserSerializer
 from .permissions import IsAdmin
 
 
@@ -58,10 +58,21 @@ class LoginView(APIView):
 class CreateUserView(APIView):
 
     permission_classes = [IsAdmin]
+    
+    def get(self, request):
+        users = User.objects.all()
+
+        serializer = UserCreateSerializer(users, many=True)
+
+        return Response(
+           serializer.data,
+            status=status.HTTP_200_OK,
+        )
+
 
     def post(self, request):
 
-        serializer = UserCreateSerializer(data=request.data)
+        serializer = UserSerializer(data=request.data)
 
         if serializer.is_valid():
             user = serializer.save()
@@ -83,4 +94,4 @@ class CreateUserView(APIView):
         return Response(
             serializer.errors,
             status=status.HTTP_400_BAD_REQUEST,
-        )
+        )      

@@ -36,7 +36,7 @@ class UserCreateSerializer(serializers.ModelSerializer):
     
 class UserSerializer(serializers.ModelSerializer):
     base_name = serializers.CharField(
-        source="base.name",
+        source="Base.name",
         read_only=True
     )
 

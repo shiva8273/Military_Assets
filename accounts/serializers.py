@@ -35,6 +35,10 @@ class UserCreateSerializer(serializers.ModelSerializer):
     
     
 class UserSerializer(serializers.ModelSerializer):
+    base_name = serializers.CharField(
+        source="base.name",
+        read_only=True
+    )
 
     class Meta:
         model = User
@@ -44,4 +48,5 @@ class UserSerializer(serializers.ModelSerializer):
             "email",
             "role",
             "base",
+            "base_name",
         ]
